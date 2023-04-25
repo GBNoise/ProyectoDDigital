@@ -1,6 +1,7 @@
 <?php 
-	require_once("db.php");
+	require_once("./db/db.php");
 	$singleton = DB::getInstance();
+
 	// $singleton->db->prepare("Select * from my table");
 ?>
 
@@ -10,6 +11,6 @@
 	<title>Hello, World!</title>
 </head>
 <body>
-	<h2><?php echo "Hello, World! sadfasdfas"; ?></h2>
+	<h2><?php echo "Hello, World! sadfasdfasasdfasdfsafff"; ?></h2>
 </body>
 </html>

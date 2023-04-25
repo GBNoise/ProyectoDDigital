@@ -1,28 +1,28 @@
-FROM php:8.0-apache
+# Use an official PHP runtime as a parent image
+FROM php:7.4-apache
 
-# Install PostgreSQL client
-RUN apt-get update && \
-    apt-get install -y postgresql-client
+# Install the PostgreSQL extension for PHP
+RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo pdo_pgsql
 
-# Install PostgreSQL driver
-RUN apt-get update && \
-    apt-get install -y libpq-dev && \
-    docker-php-ext-install pdo_pgsql && \
-    docker-php-ext-enable pdo_pgsql
+# Copy your PHP files into the image
+COPY . /var/www/html/
 
-# Copy source code
-COPY ./src /var/www/html/
+# Set the working directory to your web root
+WORKDIR /var/www/html
 
-# Set working directory
-WORKDIR /var/www/html/
+# Set environment variables for PostgreSQL connection
+ENV POSTGRES_USER=your_postgres_user
+ENV POSTGRES_PASSWORD=your_postgres_password
+ENV POSTGRES_DB=your_postgres_database
+ENV POSTGRES_HOST=db
 
-RUN chown -R www-data:www-data /var/www/html
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-RUN chmod -R 755 /var/www/html
+# Enable Apache modules for PHP support and URL rewriting
+RUN a2enmod rewrite
+RUN service apache2 restart
 
-# Expose port 80
+# Expose port 80 to the host machine
 EXPOSE 80
 
-# Start Apache2 web server
+# Start Apache web server in the foreground
 CMD ["apache2-foreground"]
+

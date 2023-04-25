@@ -5,11 +5,11 @@
         public $db = null;
         private function __construct() {
             try {
-                $host = 'db';
-                $dbname = 'db';
+                $host = 'dpg-cgj5svndvk4lfi6qnqo0-a.ohio-postgres.render.com';
+                $dbname = 'testdb_08p5';
                 $user = 'admin';
-                $password = 'pwd';
-                $db = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
+                $password = 'DUGc1r24FoypGCaDsz6ujaR2WPnbauGU';
+                $this->db = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
             } catch (PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
             }
@@ -21,6 +21,7 @@
             }
             return self::$instance;
         }
+
 
     }
 
