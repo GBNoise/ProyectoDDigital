@@ -2,7 +2,7 @@
 require_once '../db/db.php';
 
 header('Content-Type: application/json');
-echo 'hrere';
+
 switch($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         echo json_encode(getMiembros());
