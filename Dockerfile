@@ -23,7 +23,7 @@ RUN a2enmod rewrite
 RUN service apache2 restart
 
 # Expose port 80 to the host machine
-EXPOSE 80
+# EXPOSE 80
 
 # Start Apache web server in the foreground
 CMD ["apache2-foreground"]
