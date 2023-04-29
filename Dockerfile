@@ -15,13 +15,13 @@ ENV POSTGRES_USER=your_postgres_user
 ENV POSTGRES_PASSWORD=your_postgres_password
 ENV POSTGRES_DB=your_postgres_database
 ENV POSTGRES_HOST=db
-ENV PORT=8080
 
 # Enable Apache modules for PHP support and URL rewriting
 RUN a2enmod rewrite
+RUN service apache2 restart
 
-# Expose port 8080 to the host machine
-EXPOSE 8080
+# Expose port 80 to the host machine
+EXPOSE 443
 
 # Start Apache web server in the foreground
-CMD ["sh", "-c", "sed -i -e 's/80/$PORT/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf && apache2-foreground"]
+CMD ["apache2-foreground"]
