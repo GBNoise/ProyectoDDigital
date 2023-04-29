@@ -20,7 +20,7 @@ ENV POSTGRES_HOST=db
 RUN a2enmod rewrite
 
 # Restart the Apache service
-RUN systemctl restart apache2
+RUN service apache2 restart
 
 # Expose port 80 to the host machine
 EXPOSE 80
