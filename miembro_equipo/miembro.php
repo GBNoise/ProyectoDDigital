@@ -5,7 +5,11 @@ header('Content-Type: application/json');
 
 switch($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        echo json_encode(getMiembros());
+        $id = $_GET['id'];
+        if ($id == NULL)
+            echo json_encode(getMiembros());
+        else 
+            echo json_encode(getMiembro($id));
         break;
     case 'POST':
         $body = file_get_contents('php://input');
@@ -21,7 +25,6 @@ switch($_SERVER['REQUEST_METHOD']) {
         echo 'Method not allowed';
 }
 
-// Read (get all miembros)
 function getMiembros() {
     $db = DB::getInstance()->db;
     $stmt = $db->prepare("SELECT * FROM miembro_equipo");
@@ -29,7 +32,6 @@ function getMiembros() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Read (get one miembro)
 function getMiembro($id) {
     $db = DB::getInstance()->db;
     $stmt = $db->prepare("SELECT * FROM miembro_equipo WHERE Miembro_equipoID = :id");
@@ -38,7 +40,6 @@ function getMiembro($id) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-// Create (insert new miembro)
 function insertMiembro($nombre, $email, $cargo) {
     $db = DB::getInstance()->db;
     $id = uniqid();
@@ -61,7 +62,6 @@ function insertMiembro($nombre, $email, $cargo) {
 //     return $stmt->execute();
 // }
 
-// Delete (delete existing miembro)
 function deleteMiembro($id) {
     $db = DB::getInstance()->db;
     $stmt = $db->prepare("DELETE FROM miembro_equipo WHERE Miembro_equipoID = :id");
