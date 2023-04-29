@@ -2,7 +2,7 @@
 require_once '../db/db.php';
 
 header('Content-Type: application/json');
-
+header("Access-Control-Allow-Origin: *");
 switch($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         $id = $_GET['id'];
