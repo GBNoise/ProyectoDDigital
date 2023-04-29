@@ -1,27 +1,16 @@
-# Use an official PHP runtime as a parent image
-FROM php:7.4-apache
+FROM richarvey/nginx-php-fpm:1.9.1
 
-# Install the PostgreSQL extension for PHP
-RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo pdo_pgsql
+COPY . .
 
-# Copy your PHP files into the image
-COPY . /var/www/html/
+# Image config
+ENV SKIP_COMPOSER 1
+ENV WEBROOT /var/www/html
+ENV PHP_ERRORS_STDERR 1
+ENV RUN_SCRIPTS 1
+ENV REAL_IP_HEADER 1
 
-# Set the working directory to your web root
-WORKDIR /var/www/html
 
-# Set environment variables for PostgreSQL connection
-ENV POSTGRES_USER=your_postgres_user
-ENV POSTGRES_PASSWORD=your_postgres_password
-ENV POSTGRES_DB=your_postgres_database
-ENV POSTGRES_HOST=db
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# Enable Apache modules for PHP support and URL rewriting
-RUN a2enmod rewrite
-RUN service apache2 restart
-
-# Expose port 80 to the host machine
-EXPOSE 443
-
-# Start Apache web server in the foreground
-CMD ["apache2-foreground"]
+CMD ["/start.sh"]
