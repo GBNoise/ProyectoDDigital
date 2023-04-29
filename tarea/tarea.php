@@ -64,7 +64,7 @@ function getTarea($id) {
 
 }
 
-function insertTarea($nombre, $descripcion, $fechaInicio, $fechaFinal, $estado, $prioridad, $proyectoID, $miembroEquipo) {
+function insertTarea($nombre, $descripcion, $fechaInicio, $fechaFinal, $estado, $prioridad = "", $proyectoID, $miembroEquipo) {
     $db = DB::getInstance()->db;
     $id = uniqid();
     $stmt = $db->prepare("INSERT INTO tarea VALUES (:TareaID, :Nombre, :descripcion, :FechaInicio, :FechaFinal, :Estado, :Prioridad, :ProyectoID, :MiembroEquipoID)");
