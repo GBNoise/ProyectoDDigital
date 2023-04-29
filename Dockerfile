@@ -18,11 +18,12 @@ ENV POSTGRES_HOST=db
 
 # Enable Apache modules for PHP support and URL rewriting
 RUN a2enmod rewrite
-RUN service apache2 restart
+
+# Restart the Apache service
+RUN systemctl restart apache2
 
 # Expose port 80 to the host machine
 EXPOSE 80
 
 # Start Apache web server in the foreground
 CMD ["apache2-foreground"]
-
