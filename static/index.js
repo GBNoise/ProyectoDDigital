@@ -150,6 +150,18 @@ const postProject = async (data) => {
   }
 };
 
+const updateTask = async (id, status) => {
+  try {
+    const response = await fetch(
+      baseURL + `/tarea/tarea.php?id=${id}&estado=${status}`
+    );
+    window.location.reload();
+    const rdata = await response.json();
+  } catch (e) {
+    console.log({ error: e });
+  }
+};
+
 const pjIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 </svg>`;
@@ -254,6 +266,11 @@ getProjects().then((projectsMock) => {
         await deleteProject(id);
       };
 
+      const handleTaskUpdate = async (id) => {
+        const status = document.querySelector(`.status-select-${id}`).value;
+        await updateTask(id, status);
+      };
+
       const createTask = (task) => {
         const {
           TareaID,
@@ -288,16 +305,35 @@ getProjects().then((projectsMock) => {
         estadoP.innerText = estado;
 
         const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
         deleteBtn.innerText = "X";
         deleteBtn.addEventListener("click", async () => {
           await deleteTask(TareaID);
         });
+
+        const select = document.createElement("select");
+        select.append(document.createElement("option"));
+        taskstatus.forEach((status) => {
+          const opt = document.createElement("option");
+          opt.innerText = status;
+          select.append(opt);
+        });
+
+        select.className = `status-select-${TareaID}`;
+
+        const updateBtn = document.createElement("button");
+
+        updateBtn.innerText = "update";
+        updateBtn.addEventListener("click", () => handleTaskUpdate(TareaID));
+        updateBtn.className = "update-btn";
 
         div.append(title);
         div.append(desc);
         div.append(fechas);
         div.append(estado);
         div.append(deleteBtn);
+        div.append(select);
+        div.append(updateBtn);
 
         return div;
       };
@@ -350,13 +386,11 @@ getProjects().then((projectsMock) => {
         createTaskBtn.addEventListener("click", handleCreateTaskClick);
         titleContainer.append(createTaskBtn);
 
-        const deleteProjectBtn = document.createElement("button");
-        deleteProjectBtn.className = "delete-project-btn";
-        deleteProjectBtn.innerText = "Delete Project";
-        deleteProjectBtn.addEventListener("click", () =>
-          handleDeleteProject(currentProject.get().proyectoid)
-        );
-        titleContainer.append(deleteProjectBtn);
+        // const deleteProjectBtn = document.createElement("button");
+        // deleteProjectBtn.className = 'delete-project-btn'
+        // deleteProjectBtn.innerText = 'Delete Project';
+        // deleteProjectBtn.addEventListener('click', () => handleDeleteProject(currentProject.get().proyectoid));
+        // titleContainer.append(deleteProjectBtn);
 
         div.append(titleContainer);
 
