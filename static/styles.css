@@ -275,9 +275,9 @@ select {
 }
 
 .status-select {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
+  position: absolute !important;
+  bottom: 10px !important;
+  left: 10px !important;
   width: fit-content;
 }
 

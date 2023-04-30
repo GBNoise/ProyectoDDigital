@@ -1,4 +1,4 @@
-const baseURL = "https://ddigitalfinal.onrender.com";
+const baseURL = "https://proyectoddigital.onrender.com";
 
 const useState = (val) => {
   return {
@@ -153,10 +153,7 @@ const postProject = async (data) => {
 const updateTask = async (id, status) => {
   try {
     const response = await fetch(
-      baseURL + `/tarea/tarea.php?id=${id}&estado=${status}`,
-      {
-        method: "PUT",
-      }
+      baseURL + `/tarea/tarea.php?id=${id}&estado=${status}`
     );
     window.location.reload();
     const rdata = await response.json();
@@ -322,7 +319,7 @@ getProjects().then((projectsMock) => {
           select.append(opt);
         });
 
-        select.className = `status-select-${TareaID}`;
+        select.className = `status-select status-select-${TareaID}`;
 
         const updateBtn = document.createElement("button");
 
