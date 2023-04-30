@@ -166,7 +166,7 @@ h2:hover,
   color: var(--text-color);
 }
 
-.single-task button {
+.single-task .delete-btn {
   width: 30px !important;
   position: absolute;
   right: 10px;
@@ -272,4 +272,18 @@ option {
 select {
   height: 38px !important;
   outline: none;
+}
+
+.status-select {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: fit-content;
+}
+
+.update-btn {
+  position: absolute;
+  bottom: 10px !important;
+  left: 150px !important;
+  width: 80px;
 }
