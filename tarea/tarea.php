@@ -21,6 +21,11 @@ switch($_SERVER['REQUEST_METHOD']) {
         deleteTarea($id);
         echo http_response_code(200);
         break;
+    case 'PUT':
+        $id = $_GET['id'];
+        $estado = $_GET['estado'];
+        updateTarea($id, $estado);
+        echo http_response_code(200);
     default:
         http_response_code(405);
         echo 'Method not allowed';
@@ -84,19 +89,13 @@ function insertTarea($nombre, $descripcion, $fechaInicio, $fechaFinal, $estado, 
     return $stmt->execute();
 }
 
-// function updateTarea($id, $nombre, $descripcion, $fechaInicio, $fechaFinal, $estado, $prioridad, $proyectoID, $miembroEquipo) {
-//     $db = DB::getInstance()->db;
-//     $stmt = $db->prepare("UPDATE proyecto SET TareaID = :TareaID, Nombre = :Nombre, descripcion = :descripcion, Fecha_inicio = :Fecha_inicio, Fecha_prev_final = :Fecha_prev_final, Estado = :Estado, Prioridad = :Prioridad, ProyectoID = :ProyectoID, Miembro_equipoID = :Miembro_equipoID WHERE TareaID = :id");
-//     $stmt->bindParam(":TareaID", $id);
-//     $stmt->bindParam(':Nombre', $nombre);
-//     $stmt->bindParam(':Fecha_inicio', $fechaInicio);
-//     $stmt->bindParam(':Fecha_prev_final', $fechaFinal);
-//     $stmt->bindParam(':Estado', $estado);
-//     $stmt->bindParam(':Prioridad', $prioridad);
-//     $stmt->bindParam(':ProyectoID', $proyectoID);
-//     $stmt->bindParam(':Miembro_equipoID', $miembroEquipo);
-//     return $stmt->execute();
-// }
+function updateTarea($id, $estado) {
+    $db = DB::getInstance()->db;
+    $stmt = $db->prepare("UPDATE tarea SET Estado = :Estado WHERE TareaID = :id");
+    $stmt->bindParam(":TareaID", $id);
+    $stmt->bindParam(':Estado', $estado);
+    return $stmt->execute();
+}
 
 function deleteTarea($id) {
     $db = DB::getInstance()->db;
