@@ -1,4 +1,4 @@
-const baseURL = "https://ddigitalproyectofinal.onrender.com";
+const baseURL = "https://ddigitalfinal.onrender.com";
 
 const useState = (val) => {
   return {
@@ -153,7 +153,10 @@ const postProject = async (data) => {
 const updateTask = async (id, status) => {
   try {
     const response = await fetch(
-      baseURL + `/tarea/tarea.php?id=${id}&estado=${status}`
+      baseURL + `/tarea/tarea.php?id=${id}&estado=${status}`,
+      {
+        method: "PUT",
+      }
     );
     window.location.reload();
     const rdata = await response.json();
