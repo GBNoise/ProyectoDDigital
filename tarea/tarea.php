@@ -26,6 +26,7 @@ switch($_SERVER['REQUEST_METHOD']) {
         $estado = $_GET['estado'];
         updateTarea($id, $estado);
         echo http_response_code(200);
+        break;
     default:
         http_response_code(405);
         echo 'Method not allowed';
@@ -91,9 +92,10 @@ function insertTarea($nombre, $descripcion, $fechaInicio, $fechaFinal, $estado, 
 
 function updateTarea($id, $estado) {
     $db = DB::getInstance()->db;
-    $stmt = $db->prepare("UPDATE tarea SET Estado = :Estado WHERE TareaID = :id");
-    $stmt->bindParam(":TareaID", $id);
+    $stmt = $db->prepare("UPDATE tarea SET estado = :Estado WHERE TareaID = :id");
+    $stmt->bindParam(":id", $id);
     $stmt->bindParam(':Estado', $estado);
+    echo "$id, $estado";
     return $stmt->execute();
 }
 
