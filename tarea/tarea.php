@@ -18,7 +18,8 @@ switch($_SERVER['REQUEST_METHOD']) {
         break;
     case 'DELETE':
         $id = $_GET['id'];
-        echo json_encode(deleteTarea($id));
+        deleteTarea($id);
+        echo http_response_code(200);
         break;
     default:
         http_response_code(405);
