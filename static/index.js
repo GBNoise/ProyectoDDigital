@@ -48,378 +48,484 @@ const createNav = () => {
   return nav;
 };
 
+const getProjects = async () => {
+  try {
+    const response = await fetch(
+      "https://ddigital.onrender.com/proyecto/proyecto.php"
+    );
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.log({ error: e });
+  }
+};
+
+const getTareas = async () => {
+  try {
+    const response = await fetch(
+      "https://ddigital.onrender.com/tarea/tarea.php"
+    );
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.log({ error: e });
+  }
+};
+
+const getMiembros = async () => {
+  try {
+    const response = await fetch(
+      "https://ddigital.onrender.com/miembro_equipo/miembro.php"
+    );
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.log({ error: e });
+  }
+};
+
+const deleteTask = async (id) => {
+  try {
+    const response = await fetch(
+      `https://ddigital.onrender.com/tarea/tarea.php?id=${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+    window.location.reload();
+
+    const rdata = await response.json();
+  } catch (e) {
+    console.log({ error: e });
+  }
+};
+
+const postTask = async (data) => {
+  try {
+    const postdata = {
+      nombre: data["Task Name"],
+      descripcion: data["Task Description"],
+      proyecto: data["proyecto"],
+      inicio: data["Initial Date"],
+      final: data["End Date"],
+      estado: data["Status"],
+      miembroEquipo: data["Member"],
+    };
+
+    const response = await fetch(
+      "https://ddigital.onrender.com/tarea/tarea.php",
+      {
+        method: "POST",
+        body: JSON.stringify(postdata),
+      }
+    );
+    window.location.reload();
+
+    const rdata = await response.json();
+  } catch (e) {
+    console.log({ error: e });
+  }
+};
+
+const postProject = async (data) => {
+  try {
+    const postdata = {
+      nombre: data["Name"],
+      inicio: data["Initial Date"],
+      final: data["End Date"],
+      estado: data["Status"],
+    };
+
+    const response = await fetch(
+      "https://ddigital.onrender.com/proyecto/proyecto.php",
+      {
+        method: "POST",
+        body: JSON.stringify(postdata),
+      }
+    );
+    window.location.reload();
+
+    const rdata = await response.json();
+  } catch (e) {
+    console.log({ error: e });
+  }
+};
+
 const pjIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 </svg>`;
 
-const projectsMock = [
-  {
-    ProyectoID: 1,
-    Nombre: "Frontend Sandals",
-    Fecha_inicio: "20/02/23",
-    Fecha_prev_final: null,
-    Estado: "progreso",
-  },
-  {
-    ProyectoID: 2,
-    Nombre: "Frontend Sandals 2",
-    Fecha_inicio: "20/02/23",
-    Fecha_prev_final: null,
-    Estado: "progreso",
-  },
-  {
-    ProyectoID: 3,
-    Nombre: "Frontend Sandals 3",
-    Fecha_inicio: "20/02/23",
-    Fecha_prev_final: null,
-    Estado: "progreso",
-  },
-  {
-    ProyectoID: 4,
-    Nombre: "Frontend Sandals 4",
-    Fecha_inicio: "20/02/23",
-    Fecha_prev_final: null,
-    Estado: "progreso",
-  },
-];
+// let projectsMock = useState([]);
+let tareas = useState([]);
+let miembros = useState([]);
 
-const tareas = {
-  1: [
-    {
-      TareaID: 1,
-      Nombre: "Implement random",
-      descripcion: "una desc random",
-      Fecha_Inicio: "01/01/23",
-      Fecha_prev_Final: "01/03/23",
-      Estado: "On Progress",
-      Prioridad: "maxima",
-      ProyectoID: 1,
-      Miembro_equipoID: 1,
-    },
-    {
-      TareaID: 1,
-      Nombre: "Implement random",
-      descripcion: "una desc random",
-      Fecha_Inicio: "01/01/23",
-      Fecha_prev_Final: "01/03/23",
-      Estado: "Todo",
-      Prioridad: "maxima",
-      ProyectoID: 1,
-      Miembro_equipoID: 1,
-    },
-  ],
-  2: [
-    {
-      TareaID: 1,
-      Nombre: "Implement random",
-      descripcion: "una desc random",
-      Fecha_Inicio: "01/01/23",
-      Fecha_prev_Final: "01/03/23",
-      Estado: "On Progress",
-      Prioridad: "maxima",
-      ProyectoID: 1,
-      Miembro_equipoID: 1,
-    },
-    {
-      TareaID: 1,
-      Nombre: "Implement random",
-      descripcion: "una desc random",
-      Fecha_Inicio: "01/01/23",
-      Fecha_prev_Final: "01/03/23",
-      Estado: "On Progress",
-      Prioridad: "maxima",
-      ProyectoID: 1,
-      Miembro_equipoID: 1,
-    },
-  ],
-  3: [
-    {
-      TareaID: 1,
-      Nombre: "Implement random",
-      descripcion: "una desc random",
-      Fecha_Inicio: "01/01/23",
-      Fecha_prev_Final: "01/03/23",
-      Estado: "Todo",
-      Prioridad: "maxima",
-      ProyectoID: 1,
-      Miembro_equipoID: 1,
-    },
-    {
-      TareaID: 1,
-      Nombre: "Implement random",
-      descripcion: "una desc random",
-      Fecha_Inicio: "01/01/23",
-      Fecha_prev_Final: "01/03/23",
-      Estado: "Todo",
-      Prioridad: "maxima",
-      ProyectoID: 1,
-      Miembro_equipoID: 1,
-    },
-  ],
-  4: [
-    {
-      TareaID: 1,
-      Nombre: "Implement random",
-      descripcion: "una desc random",
-      Fecha_Inicio: "01/01/23",
-      Fecha_prev_Final: "01/03/23",
-      Estado: "Todo",
-      Prioridad: "maxima",
-      ProyectoID: 1,
-      Miembro_equipoID: 1,
-    },
-    {
-      TareaID: 1,
-      Nombre: "Implement random",
-      descripcion: "una desc random",
-      Fecha_Inicio: "01/01/23",
-      Fecha_prev_Final: "01/03/23",
-      Estado: "Done",
-      Prioridad: "maxima",
-      ProyectoID: 1,
-      Miembro_equipoID: 1,
-    },
-  ],
-};
+getProjects().then((projectsMock) => {
+  let currentProject = useState(projectsMock[0]);
 
-const currentProject = useState(projectsMock[0]);
-const currentTasks = useState(tareas[currentProject.get()["ProyectoID"]]);
-const taskstatus = ["Todo", "On Progress", "Done"];
-const isModalOpen = useState(false);
-const createTaskFields = useState({
-  "Task Name": "",
-  "Task Description": "",
-  "Initial Date": null,
-  "End Date": null,
-  Status: "",
+  getTareas().then((tRes) => {
+    tareas = tRes;
+    let currentTasks = useState(tRes[projectsMock[0]["proyectoid"]]);
+
+    getMiembros().then((mres) => {
+      miembros = mres;
+
+      const taskstatus = ["Todo", "On Progress", "Done"];
+      const isModalOpen = useState(false);
+      const createTaskFields = useState({
+        "Task Name": "",
+        "Task Description": "",
+        "Initial Date": null,
+        "End Date": null,
+        proyecto: "",
+        Status: "",
+        Member: "",
+      });
+
+      const createProjectFields = useState({
+        Name: "",
+        "Initial Date": null,
+        "End Date": null,
+        Estado: "",
+      });
+
+      const createSidebar = () => {
+        const div = document.createElement("div");
+        div.className = "sidebar";
+        const title = document.createElement("h2");
+        title.innerText = "Projects";
+
+        div.append(title);
+
+        const ul = document.createElement("ul");
+        ul.className = "projects-list";
+        projectsMock.forEach((project) => {
+          const { proyectoid, nombre, fecha_inicio, fecha_prev_final, estado } =
+            project;
+          const li = document.createElement("li");
+          const link = document.createElement("a");
+          link.style.display = "flex";
+          // link.href = `/project/${ProyectoID}`;
+          link.innerHTML += `${pjIcon} <p>${nombre}</p>`;
+          li.append(link);
+          const setProject = (newVal) => {
+            let titleContainer = document.querySelector(".title-container-h2");
+            if (!titleContainer) return;
+            titleContainer.innerHTML = newVal.nombre;
+          };
+
+          const setTasks = () => {
+            let render = document.querySelector(".render-view");
+            render.remove();
+            render = createViewRender();
+            document.body.append(render);
+          };
+
+          li.addEventListener("click", (e) => {
+            currentProject.set(project, setProject);
+            console.log(tareas);
+            console.log(project["proyectoid"]);
+            currentTasks.set(tareas[project["proyectoid"]], setTasks);
+          });
+          ul.append(li);
+        });
+
+        const createProjectBtn = document.createElement("button");
+        createProjectBtn.innerText = "Create Project";
+        createProjectBtn.addEventListener("click", handleCreateProjectClick);
+
+        div.append(ul);
+        div.append(createProjectBtn);
+        return div;
+      };
+
+      const handleCreateProjectClick = (e) => {
+        e.stopPropagation();
+        let modal = document.querySelector(".modal");
+        if (modal !== null) {
+          modal.remove();
+          return;
+        }
+
+        modal = createModal("Create Project");
+        document.body.appendChild(modal);
+        isModalOpen.set(!isModalOpen.get(), handleCreateProjectClick);
+      };
+
+      const createTask = (task) => {
+        const {
+          TareaID,
+          Nombre,
+          descripcion,
+          fecha_inicio,
+          fecha_prev_final,
+          estado,
+          prioridad,
+          proyectoid,
+          miembro_equipoid,
+        } = task;
+
+        const div = document.createElement("div");
+        div.className = "single-task";
+        div.draggable = true;
+
+        const title = document.createElement("h2");
+        title.className = "single-task-h2";
+        title.innerText = Nombre;
+
+        const desc = document.createElement("p");
+        desc.className = "single-task-p";
+        desc.innerText = descripcion;
+
+        const fechas = document.createElement("p");
+        fechas.className = "single-task-p";
+        fechas.innerText = `${fecha_inicio} - ${fecha_prev_final}`;
+
+        const estadoP = document.createElement("p");
+        estadoP.className = "single-task-p";
+        estadoP.innerText = estado;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerText = "X";
+        deleteBtn.addEventListener("click", async () => {
+          await deleteTask(TareaID);
+        });
+
+        div.append(title);
+        div.append(desc);
+        div.append(fechas);
+        div.append(estado);
+        div.append(deleteBtn);
+
+        return div;
+      };
+
+      const onMouseOverTasksContainer = (e) => {
+        e.stopPropagation();
+      };
+
+      const onMouseLeaveTasksContainer = (e) => {
+        e.stopPropagation();
+      };
+
+      const createTasksContainer = (title) => {
+        const div = document.createElement("div");
+        div.className = `task-container task-container-${title}`;
+        const h2 = document.createElement("h2");
+        h2.innerText = title;
+        h2.className = `task-container-h2-${title}`;
+        div.append(h2);
+        div.addEventListener("mouseover", onMouseOverTasksContainer);
+        div.addEventListener("mouseleave", onMouseLeaveTasksContainer);
+        return div;
+      };
+
+      const handleCreateTaskClick = (e) => {
+        e.stopPropagation();
+        let modal = document.querySelector(".modal");
+        if (modal !== null) {
+          modal.remove();
+          return;
+        }
+
+        modal = createModal("Create Task");
+        document.body.appendChild(modal);
+        isModalOpen.set(!isModalOpen.get(), handleCreateTaskClick);
+      };
+
+      const createViewRender = () => {
+        const div = document.createElement("div");
+        div.className = "render-view";
+
+        const titleContainer = document.createElement("div");
+        const titleContainerTitle = document.createElement("h2");
+        titleContainerTitle.className = "title-container-h2";
+        titleContainerTitle.innerText += currentProject.get().nombre;
+        titleContainer.append(titleContainerTitle);
+        titleContainer.className = "title-container";
+        const createTaskBtn = document.createElement("button");
+        createTaskBtn.innerText = "Create Task";
+        createTaskBtn.addEventListener("click", handleCreateTaskClick);
+        titleContainer.append(createTaskBtn);
+        div.append(titleContainer);
+
+        const innerTasks = document.createElement("div");
+        innerTasks.className = "inner-tasks";
+
+        taskstatus.forEach((title) => {
+          const taskcontainer = createTasksContainer(title);
+          if (currentTasks.get()) {
+            currentTasks.get().forEach((task) => {
+              if (task.estado === title || title.includes(task.estado)) {
+                taskcontainer.append(createTask(task));
+              }
+            });
+          }
+
+          innerTasks.append(taskcontainer);
+        });
+
+        div.append(innerTasks);
+
+        return div;
+      };
+
+      const handleTasksInputChange = (e) => {
+        const name = e.target.name;
+        let value = e.target.value;
+
+        if (name === "Member") {
+          const member = miembros.filter(
+            ({ nombre, miembro_equipoid }) => nombre === value
+          );
+          value = member[0]["miembro_equipoid"];
+        }
+
+        let prevVal = createTaskFields.get();
+        prevVal = {
+          ...prevVal,
+          proyecto: currentProject.get()["proyectoid"],
+          [name]: value,
+        };
+        createTaskFields.set(prevVal);
+      };
+
+      const handleProjectInputChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        let prevVal = createProjectFields.get();
+        prevVal = { ...prevVal, [name]: value };
+        createProjectFields.set(prevVal);
+      };
+
+      const createFormInput = (
+        title,
+        type = "text",
+        element = null,
+        dataType = "tasks"
+      ) => {
+        const label = document.createElement("label");
+        label.for = "form-input";
+        label.className = "form-label";
+        label.innerText += title + ": ";
+
+        let formInput = element;
+        if (!element) {
+          formInput = document.createElement("input");
+        }
+
+        formInput.className = "form-input";
+        formInput.id = "form-input";
+        formInput.type = type;
+        formInput.name = title;
+
+        formInput.addEventListener(
+          "change",
+          dataType === "tasks"
+            ? handleTasksInputChange
+            : handleProjectInputChange
+        );
+
+        label.append(formInput);
+        return label;
+      };
+
+      const handleCreateTaskSubmit = async (e) => {
+        e.preventDefault();
+        await postTask(createTaskFields.get());
+      };
+
+      const handleCreateProjectSubmit = async (e) => {
+        e.preventDefault();
+        await postProject(createProjectFields.get());
+      };
+
+      const createModal = (title) => {
+        const div = document.createElement("div");
+        div.className = "modal";
+        const innerDiv = document.createElement("form");
+        innerDiv.className = "inner-modal";
+
+        const innerTitle = document.createElement("h2");
+        innerTitle.innerText = title || "";
+        innerDiv.append(innerTitle);
+
+        if (title === "Create Task") {
+          const name = createFormInput("Task Name");
+          const description = createFormInput("Task Description");
+          const initialDate = createFormInput("Initial Date", "Date");
+          const endDate = createFormInput("End Date", "Date");
+          const status = document.createElement("select");
+          const statusTodo = document.createElement("option");
+          statusTodo.innerText = taskstatus[0];
+          const statusProgress = document.createElement("option");
+          statusProgress.innerText = taskstatus[1];
+          const statusDone = document.createElement("option");
+          statusDone.innerText = taskstatus[2];
+
+          status.append(document.createElement("option"));
+          status.append(statusTodo);
+          status.append(statusProgress);
+          status.append(statusDone);
+
+          const member = document.createElement("select");
+          member.append(document.createElement("option"));
+          miembros.forEach(({ miembro_equipoid, nombre, email, cargo }) => {
+            let option = document.createElement("option");
+            option.id = miembro_equipoid;
+            option.innerText = nombre;
+            member.append(option);
+          });
+
+          const createTaskBtn = document.createElement("button");
+          createTaskBtn.innerText = "Create Task";
+          createTaskBtn.addEventListener("click", handleCreateTaskSubmit);
+          createTaskBtn.type = "submit";
+
+          div.addEventListener("click", handleCreateTaskClick);
+          innerDiv.append(name);
+          innerDiv.append(description);
+          innerDiv.append(initialDate);
+          innerDiv.append(endDate);
+          innerDiv.append(createFormInput("Status", "", status));
+          innerDiv.append(createFormInput("Member", "", member));
+          innerDiv.append(createTaskBtn);
+        }
+
+        if (title === "Create Project") {
+          const name = createFormInput("Name", "", "", "projects");
+          const inicio = createFormInput(
+            "Initial Date",
+            "date",
+            "",
+            "projects"
+          );
+          const final = createFormInput("End Date", "date", "", "projects");
+          const status = createFormInput("Status", "", "", "projects");
+
+          const createProjectBtn = document.createElement("button");
+          createProjectBtn.innerText = "Create Project";
+          createProjectBtn.addEventListener("click", handleCreateProjectSubmit);
+          createProjectBtn.type = "submit";
+          div.addEventListener("click", handleCreateProjectClick);
+          innerDiv.append(name);
+          innerDiv.append(inicio);
+          innerDiv.append(final);
+          innerDiv.append(status);
+          innerDiv.append(createProjectBtn);
+        }
+
+        innerDiv.addEventListener("click", (e) => e.stopPropagation());
+        div.append(innerDiv);
+        return div;
+      };
+
+      const nav = createNav();
+      const sidebar = createSidebar();
+      const view = createViewRender();
+      document.body.appendChild(nav);
+      document.body.appendChild(sidebar);
+      document.body.appendChild(view);
+    });
+  });
 });
-
-const createSidebar = () => {
-  const div = document.createElement("div");
-  div.className = "sidebar";
-  const title = document.createElement("h2");
-  title.innerText = "Projects";
-
-  div.append(title);
-
-  const ul = document.createElement("ul");
-  ul.className = "projects-list";
-  projectsMock.forEach((project) => {
-    const { ProyectoID, Nombre, Fecha_inicio, Fecha_prev_final, Estado } =
-      project;
-    const li = document.createElement("li");
-    const link = document.createElement("a");
-    link.style.display = "flex";
-    // link.href = `/project/${ProyectoID}`;
-    link.innerHTML += `${pjIcon} <p>${Nombre}</p>`;
-    li.append(link);
-    const setProject = (newVal) => {
-      let titleContainer = document.querySelector(".title-container-h2");
-      if (!titleContainer) return;
-      titleContainer.innerHTML = newVal.Nombre;
-    };
-
-    // TODO: Tasks have to be correctly set after change
-
-    const setTasks = () => {
-      let render = document.querySelector(".render-view");
-      render.remove();
-      render = createViewRender();
-      document.body.append(render);
-    };
-
-    li.addEventListener("click", (e) => {
-      currentProject.set(project, setProject);
-      currentTasks.set(tareas[currentProject.get()["ProyectoID"]], setTasks);
-    });
-    ul.append(li);
-  });
-
-  div.append(ul);
-
-  return div;
-};
-
-const createTask = (task) => {
-  const {
-    TareaID,
-    Nombre,
-    descripcion,
-    Fecha_Inicio,
-    Fecha_prev_Final,
-    Estado,
-    Prioridad,
-    ProyectoID,
-    Miembro_equipoID,
-  } = task;
-  const div = document.createElement("div");
-  div.className = "single-task";
-  div.draggable = true;
-
-  const title = document.createElement("h2");
-  title.className = "single-task-h2";
-  title.innerText = Nombre;
-
-  div.append(title);
-
-  return div;
-};
-
-const onMouseOverTasksContainer = (e) => {
-  e.stopPropagation();
-};
-
-const onMouseLeaveTasksContainer = (e) => {
-  e.stopPropagation();
-};
-
-const createTasksContainer = (title) => {
-  const div = document.createElement("div");
-  div.className = `task-container task-container-${title}`;
-  const h2 = document.createElement("h2");
-  h2.innerText = title;
-  h2.className = `task-container-h2-${title}`;
-  div.append(h2);
-  div.addEventListener("mouseover", onMouseOverTasksContainer);
-  div.addEventListener("mouseleave", onMouseLeaveTasksContainer);
-  return div;
-};
-
-const handleCreateTaskClick = (e) => {
-  e.stopPropagation();
-  let modal = document.querySelector(".modal");
-  if (modal !== null) {
-    modal.remove();
-    return;
-  }
-
-  modal = createModal("Create Task");
-  document.body.appendChild(modal);
-  isModalOpen.set(!isModalOpen.get(), handleCreateTaskClick);
-};
-
-const createViewRender = () => {
-  const div = document.createElement("div");
-  div.className = "render-view";
-
-  const titleContainer = document.createElement("div");
-  const titleContainerTitle = document.createElement("h2");
-  titleContainerTitle.className = "title-container-h2";
-  titleContainerTitle.innerText += currentProject.get().Nombre;
-  titleContainer.append(titleContainerTitle);
-  titleContainer.className = "title-container";
-  const createTaskBtn = document.createElement("button");
-  createTaskBtn.innerText = "Create Task";
-  createTaskBtn.addEventListener("click", handleCreateTaskClick);
-  titleContainer.append(createTaskBtn);
-  div.append(titleContainer);
-
-  const innerTasks = document.createElement("div");
-  innerTasks.className = "inner-tasks";
-
-  taskstatus.forEach((title) => {
-    const taskcontainer = createTasksContainer(title);
-    currentTasks.get().forEach((task) => {
-      if (task.Estado === title) {
-        taskcontainer.append(createTask(task));
-      }
-    });
-    innerTasks.append(taskcontainer);
-  });
-
-  div.append(innerTasks);
-
-  return div;
-};
-
-const handleTasksInputChange = (e) => {
-  const name = e.target.name;
-  const value = e.target.value;
-  let prevVal = createTaskFields.get();
-  prevVal = { ...prevVal, [name]: value };
-  createTaskFields.set(prevVal);
-};
-
-const createFormInput = (
-  title,
-  type = "text",
-  element = null,
-  dataType = "tasks"
-) => {
-  const label = document.createElement("label");
-  label.for = "form-input";
-  label.className = "form-label";
-  label.innerText += title + ": ";
-
-  let formInput = element;
-  if (!element) {
-    formInput = document.createElement("input");
-  }
-
-  formInput.className = "form-input";
-  formInput.id = "form-input";
-  formInput.type = type;
-  formInput.name = title;
-
-  formInput.addEventListener(
-    "change",
-    dataType === "tasks" ? handleTasksInputChange : () => alert("nothing")
-  );
-
-  label.append(formInput);
-  return label;
-};
-
-const handleCreateTaskSubmit = (e) => {
-  e.preventDefault();
-};
-
-const createModal = (title) => {
-  const div = document.createElement("div");
-  div.className = "modal";
-  const innerDiv = document.createElement("form");
-  innerDiv.className = "inner-modal";
-
-  const innerTitle = document.createElement("h2");
-  innerTitle.innerText = title || "";
-  innerDiv.append(innerTitle);
-
-  const name = createFormInput("Task Name");
-  const description = createFormInput("Task Description");
-  const initialDate = createFormInput("Initial Date", "Date");
-  const endDate = createFormInput("End Date", "Date");
-  const status = document.createElement("select");
-  const statusTodo = document.createElement("option");
-  statusTodo.innerText = taskstatus[0];
-  const statusProgress = document.createElement("option");
-  statusProgress.innerText = taskstatus[1];
-  const statusDone = document.createElement("option");
-  statusDone.innerText = taskstatus[2];
-
-  status.append(statusTodo);
-  status.append(statusProgress);
-  status.append(statusDone);
-
-  const createTaskBtn = document.createElement("button");
-  createTaskBtn.innerText = "Create Task";
-  createTaskBtn.addEventListener("click", handleCreateTaskSubmit);
-  createTaskBtn.type = "submit";
-
-  innerDiv.addEventListener("click", (e) => e.stopPropagation());
-  div.addEventListener("click", handleCreateTaskClick);
-  innerDiv.append(name);
-  innerDiv.append(description);
-  innerDiv.append(initialDate);
-  innerDiv.append(endDate);
-  innerDiv.append(createFormInput("Status", "", status));
-  innerDiv.append(createTaskBtn);
-  div.append(innerDiv);
-  return div;
-};
-
-const nav = createNav();
-const sidebar = createSidebar();
-const view = createViewRender();
-document.body.appendChild(nav);
-document.body.appendChild(sidebar);
-document.body.appendChild(view);

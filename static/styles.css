@@ -90,6 +90,9 @@ path:hover {
   height: 100vh;
   border-right: 1px solid var(--border-color);
   padding: var(--pd);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .render-view {
@@ -119,6 +122,8 @@ h2:hover,
   gap: 10px;
   flex-direction: column;
   margin-top: 20px;
+  height: 80%;
+  overflow: auto;
 }
 
 .projects-list li,
@@ -146,16 +151,27 @@ h2:hover,
   flex-direction: column;
   gap: 20px;
   border-radius: 5px;
+  overflow: auto;
 }
 
 .single-task {
   width: 100%;
-  height: 200px;
+  min-height: 200px;
   border: 1px solid var(--border-color);
   background-color: var(--bg-secondary);
   border-radius: 5px;
   padding: var(--pd);
   cursor: pointer;
+  position: relative;
+  color: var(--text-color);
+}
+
+.single-task button {
+  width: 30px !important;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  color: var(--text-color);
 }
 
 .single-task:hover,
@@ -163,8 +179,8 @@ h2:hover,
   border: 1px solid var(--text-color);
 }
 
-.task-container:hover > h2,
-.single-task:hover h2 {
+.task-container > h2,
+.single-task h2 {
   color: var(--text-color);
 }
 
@@ -180,7 +196,8 @@ h2:hover,
 }
 
 .title-container button,
-form button {
+form button,
+div button {
   width: 120px;
   height: 30px;
   border-radius: 5px;
@@ -209,7 +226,8 @@ h2 {
 
 .inner-modal {
   width: 500px;
-  height: 500px;
+  height: fit-content;
+  min-height: 500px;
   border-radius: 5px;
   border: 1px solid var(--text-color);
   background-color: var(--bg-color);
