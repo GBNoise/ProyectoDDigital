@@ -193,6 +193,13 @@ h2:hover,
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
+}
+
+.delete-project-btn {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
 }
 
 .title-container button,
