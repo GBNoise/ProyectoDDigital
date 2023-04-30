@@ -152,8 +152,12 @@ const postProject = async (data) => {
 
 const updateTask = async (id, status) => {
   try {
+    alert(JSON.stringify({ id, status }));
     const response = await fetch(
-      baseURL + `/tarea/tarea.php?id=${id}&estado=${status}`
+      baseURL + `/tarea/tarea.php?id=${id}&estado=${status}`,
+      {
+        method: "PUT",
+      }
     );
     window.location.reload();
     const rdata = await response.json();
