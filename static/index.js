@@ -152,7 +152,6 @@ const postProject = async (data) => {
 
 const updateTask = async (id, status) => {
   try {
-    alert(JSON.stringify({ id, status }));
     const response = await fetch(
       baseURL + `/tarea/tarea.php?id=${id}&estado=${status}`,
       {
